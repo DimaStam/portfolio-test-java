@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All suites">
+    <suite-files>
+        <suite-file path="pl/store1/elements/elements.xml" />
+        <suite-file path="pl/store1/elements/menu.xml" />
+        <suite-file path="pl/store1/shop/product-card.xml" />
+        <suite-file path="pl/store1/shop/listing.xml" />
+        <suite-file path="pl/store1/users/login-and-registration.xml" />
+        <suite-file path="pl/store1/orders/orders.xml" />
+        <suite-file path="store2/users/login-and-registration.xml" />
+        <suite-file path="store2/orders/orders.xml" />
+        <suite-file path="it/store1/orders/orders.xml" />
+    </suite-files>
+</suite>

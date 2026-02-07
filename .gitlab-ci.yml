@@ -1,0 +1,109 @@
+stages:
+  - Store1
+  - Store2
+  - Send-report
+
+default:
+  image: mcr.microsoft.com/playwright/java:v1.45.0-jammy
+  tags:
+    - demo
+  artifacts:
+    when: always
+    expire_in: 3 DAYS
+    paths:
+      - screenshots/
+      - target/allure-results/
+
+.pipeline-branch-model:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+      variables:
+        ENVIRONMENT: "demo"
+      when: always
+    - if: '$CI_COMMIT_BRANCH == "daily"'
+      variables:
+        ENVIRONMENT: "demo"
+      when: manual
+    - if: '$CI_COMMIT_BRANCH != "master" && $CI_COMMIT_BRANCH != "daily"'
+      variables:
+        ENVIRONMENT: "demo"
+      when: manual
+  allow_failure: true
+
+.pipeline-test:
+  extends: .pipeline-branch-model
+  script:
+    - mvn clean test -DsuiteXmlFile=$SUITE_XML_FILE -Denvironment=$ENVIRONMENT -Dheadless=true
+
+Store1-pl-users-login-and-registration:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/pl/store1/users/login-and-registration.xml"
+
+Store1-pl-elements:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/pl/store1/elements/elements.xml"
+
+Store1-pl-menu:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/pl/store1/elements/menu.xml"
+
+Store1-pl-product-card:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/pl/store1/shop/product-card.xml"
+
+Store1-pl-listing:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/pl/store1/shop/listing.xml"
+
+Store1-pl-orders:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/pl/store1/orders/orders.xml"
+
+Store1-it-orders:
+  extends: .pipeline-test
+  stage: Store1
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/it/store1/orders/orders.xml"
+
+Store2-users-login-and-registration:
+  extends: .pipeline-test
+  stage: Store2
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/store2/users/login-and-registration.xml"
+
+Store2-orders:
+  extends: .pipeline-test
+  stage: Store2
+  variables:
+    SUITE_XML_FILE: "src/test/resources/suites/store2/orders/orders.xml"
+
+Submit-finished-report:
+  extends: .pipeline-branch-model
+  stage: Send-report
+  before_script:
+    - date
+    - apt-get update && apt-get install -y wget jq
+  needs:
+    - Store1-pl-users-login-and-registration
+    - Store1-pl-elements
+    - Store1-pl-menu
+    - Store1-pl-product-card
+    - Store1-pl-listing
+    - Store1-pl-orders
+    - Store1-it-orders
+    - Store2-users-login-and-registration
+    - Store2-orders
+  script:
+    - ./allure-server/allure-push.sh ${CI_PIPELINE_ID}

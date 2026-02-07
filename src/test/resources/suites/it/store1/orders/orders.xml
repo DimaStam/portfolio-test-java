@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="[IT] Store 1 orders">
+    <parameter name="environment" value="${environment}" />
+    <parameter name="headless" value="true" />
+    <test name="Orders in Store 1 (guest user)">
+        <packages>
+            <package name="tests.it.store1.orders.payment.guestuser.standardpostcode.cashondeliverycourier" />
+            <package name="tests.it.store1.orders.payment.guestuser.standardpostcode.courierdelivery" />
+            <package name="tests.it.store1.orders.payment.guestuser.premiumpostcode.cashondeliverycourier" />
+            <package name="tests.it.store1.orders.payment.guestuser.premiumpostcode.courierdelivery" />
+        </packages>
+    </test>
+    <test name="Orders in Store 1 (logged in user)">
+        <packages>
+            <package name="tests.it.store1.orders.payment.loggedinuser.standardpostcode.cashondeliverycourier" />
+            <package name="tests.it.store1.orders.payment.loggedinuser.standardpostcode.courierdelivery" />
+            <package name="tests.it.store1.orders.payment.loggedinuser.premiumpostcode.cashondeliverycourier" />
+            <package name="tests.it.store1.orders.payment.loggedinuser.premiumpostcode.courierdelivery" />
+        </packages>
+    </test>
+</suite>

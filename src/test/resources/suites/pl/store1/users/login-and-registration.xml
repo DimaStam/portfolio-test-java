@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="[PL] Store1 users login and registration">
+    <parameter name="environment" value="${environment}" />
+    <parameter name="headless" value="true" />
+    <test name="Users login in store1">
+        <packages>
+            <package name="tests.pl.store1.users.login" />
+        </packages>
+    </test>
+    <test name="Users registration in store1">
+        <packages>
+            <package name="tests.pl.store1.users.registration" />
+        </packages>
+    </test>
+</suite>

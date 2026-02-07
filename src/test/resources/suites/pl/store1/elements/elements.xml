@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="[PL] Store1 elements" parallel="methods" thread-count="2">
+    <parameter name="environment" value="${environment}" />
+    <parameter name="headless" value="true" />
+    <test name="Homepage Header">
+        <packages>
+            <package name="tests.pl.store1.elements.homepage.desktop.header" />
+        </packages>
+    </test>
+    <test name="Homepage Blog carousel">
+        <packages>
+            <package name="tests.pl.store1.elements.homepage.desktop.blog" />
+        </packages>
+    </test>
+    <test name="Homepage Footer">
+        <packages>
+            <package name="tests.pl.store1.elements.homepage.desktop.footer.hotline" />
+            <package name="tests.pl.store1.elements.homepage.desktop.footer.staticlinks" />
+            <package name="tests.pl.store1.elements.homepage.desktop.footer.socialmedia" />
+        </packages>
+    </test>
+</suite>
